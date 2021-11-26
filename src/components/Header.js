@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { selectCars } from "../features/car/carSlice";
@@ -7,6 +7,7 @@ import { AiOutlineClose } from "react-icons/ai";
 
 function Header() {
   const cars = useSelector(selectCars);
+  const [burgerStatus, setburgerStatus] = useState(false);
 
   return (
     <Container>
@@ -24,11 +25,11 @@ function Header() {
       <RightMenu>
         <a href="#">Shop</a>
         <a href="#">Tesla Account</a>
-        <CustomMenu />
+        <CustomMenu onClick={() => setburgerStatus(true)} />
       </RightMenu>
-      <BurgerNav>
+      <BurgerNav show={burgerStatus}>
         <CloseWrapper>
-          <CustomClose />
+          <CustomClose onClick={() => setburgerStatus(false)} />
         </CloseWrapper>
         <li>
           <a href="#">Existing Inventory</a>
@@ -116,6 +117,8 @@ const BurgerNav = styled.div`
   display: flex;
   flex-direction: column;
   text-align: start;
+  transform: ${({ show }) => (show ? "translateX(0)" : "translateX(100%)")};
+
   li {
     padding: 15px 0px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
